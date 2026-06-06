@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import PinInput from '../components/PinInput';
 import './PinLogin.css';
@@ -59,7 +59,7 @@ function ClipboardIcon() {
 }
 
 export default function PinLogin() {
-  const { role } = useParams();
+  const role = 'owner';
   const navigate = useNavigate();
   const { login, resetPins } = useAuth();
 
