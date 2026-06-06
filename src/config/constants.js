@@ -4,7 +4,7 @@
 
 // Google Apps Script Web-App URL (replace after deployment)
 export const GOOGLE_APPS_SCRIPT_URL =
-  import.meta.env.VITE_APPS_SCRIPT_URL || 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+  import.meta.env.VITE_APPS_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyyeWO6gvoGJq6DmcI110WQiHdBgMks855NRxoeyYafedjwFWgEdBAwY1kpQwzmU6zF/exec';
 
 // Gemini API Key (used server-side via Apps Script — kept here for local dev)
 export const GEMINI_API_KEY =
