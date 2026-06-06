@@ -4,7 +4,6 @@ import { AppProvider } from './context/AppContext';
 
 // Auth pages
 import RoleSelect from './pages/RoleSelect';
-import PinSetup from './pages/PinSetup';
 import PinLogin from './pages/PinLogin';
 import StaffLogin from './pages/StaffLogin';
 
