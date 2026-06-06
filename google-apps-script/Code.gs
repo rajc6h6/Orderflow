@@ -187,25 +187,28 @@ function getOrders() {
 function addOrder(data) {
   const sheet = getOrCreateSheet('Orders', ORDER_HEADERS);
   
-  const orderId = generateOrderId();
-  const now = new Date().toISOString();
+  // sheetsService sends { action: 'addOrder', order: { ... } }
+  const orderData = data.order || data;
+  
+  const orderId = orderData.order_id || generateOrderId();
+  const now = orderData.placed_at || new Date().toISOString();
   
   // Build items readable string
-  const items = data.items || [];
-  const itemsReadable = items
+  const items = orderData.items || [];
+  const itemsReadable = orderData.items_readable || items
     .map(item => `${item.quantity || '?'} ${item.product}`)
     .join(', ');
   
   const row = [
     orderId,
-    data.customer_name || '',
+    orderData.customer_name || '',
     JSON.stringify(items),
     itemsReadable,
-    data.note || '',
+    orderData.note || '',
     'Pending',
     now,
     '', // dispatched_at
-    'Owner',
+    orderData.placed_by || 'Owner',
     '' // dispatched_by
   ];
   
@@ -215,14 +218,14 @@ function addOrder(data) {
     success: true, 
     data: {
       order_id: orderId,
-      customer_name: data.customer_name,
+      customer_name: orderData.customer_name,
       items: items,
       items_readable: itemsReadable,
-      note: data.note || '',
+      note: orderData.note || '',
       status: 'Pending',
       placed_at: now,
       dispatched_at: '',
-      placed_by: 'Owner',
+      placed_by: orderData.placed_by || 'Owner',
       dispatched_by: ''
     }
   };
