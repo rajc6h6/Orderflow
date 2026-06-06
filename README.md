@@ -2,7 +2,7 @@
 
 A voice-based order management app built for small wholesale businesses in India. The owner records a voice note — something like *"Ramesh Trading ko 50 bucket aur 20 mug bhejne hain"* — and the app figures out the customer, products, and quantities on its own. Staff can then see those orders on their phones and mark them as dispatched.
 
-**Live app:** [YOUR_VERCEL_URL.vercel.app](https://YOUR_VERCEL_URL.vercel.app)
+**Live app:** https://orderflow-bice.vercel.app/
 
 ---
 
