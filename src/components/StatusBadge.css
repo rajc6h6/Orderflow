@@ -1,0 +1,39 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.status-badge--pending {
+  background-color: #fff3cd;
+  color: #795900;
+}
+
+.status-badge--dispatched {
+  background-color: #c1ecd4;
+  color: #012d1d;
+}
+
+.status-badge__hindi {
+  font-family: var(--font-hindi);
+}
+
+.status-badge__separator {
+  opacity: 0.5;
+  font-size: 12px;
+}
+
+.status-badge__english {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}

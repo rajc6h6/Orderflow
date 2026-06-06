@@ -1,0 +1,120 @@
+.staff-login-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-surface, #f8f9fa);
+  display: flex;
+  flex-direction: column;
+}
+
+.staff-login__header {
+  padding: 16px;
+}
+
+.staff-login__back {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-on-surface, #191c1d);
+}
+
+.staff-login__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px 48px;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.staff-login__icon {
+  width: 72px;
+  height: 72px;
+  background: var(--color-primary-container, #1b4332);
+  color: var(--color-on-primary, #ffffff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  margin-top: 24px;
+}
+.staff-login__icon svg {
+  width: 36px;
+  height: 36px;
+}
+
+.staff-login__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-on-surface, #191c1d);
+  margin: 0 0 8px;
+  text-align: center;
+}
+
+.staff-login__subtitle {
+  font-size: 16px;
+  color: var(--color-on-surface-variant, #414844);
+  text-align: center;
+  margin: 0 0 32px;
+}
+
+.staff-login__phone-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+}
+
+.staff-login__phone-input {
+  width: 100%;
+  padding: 16px;
+  font-size: 20px;
+  text-align: center;
+  border: 2px solid var(--color-outline-variant, #c1c8c2);
+  border-radius: var(--radius-lg, 16px);
+  background: var(--color-surface-container-lowest, #ffffff);
+  color: var(--color-on-surface, #191c1d);
+  letter-spacing: 2px;
+}
+.staff-login__phone-input:focus {
+  outline: none;
+  border-color: var(--color-primary, #2d6a4f);
+}
+
+.staff-login__next-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--color-primary, #2d6a4f);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-lg, 16px);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.staff-login__next-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.staff-login__pin-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.staff-login__loading {
+  font-size: 18px;
+  color: var(--color-primary, #2d6a4f);
+  font-weight: 600;
+  margin-top: 32px;
+}

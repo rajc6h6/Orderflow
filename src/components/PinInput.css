@@ -1,0 +1,195 @@
+/* ============================================
+   PinInput Component
+   ============================================ */
+
+.pin-input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* ---- Dot Indicators ---- */
+
+.pin-dots {
+  display: flex;
+  gap: var(--space-4);
+  justify-content: center;
+  padding: var(--space-4) 0;
+}
+
+.pin-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-full);
+  border: 2.5px solid var(--color-primary-container);
+  background: transparent;
+  transition: all var(--transition-normal);
+  position: relative;
+}
+
+.pin-dot.filled {
+  background: var(--color-primary-container);
+  border-color: var(--color-primary-container);
+  transform: scale(1.15);
+}
+
+.pin-dot.filled::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: var(--radius-full);
+  background: rgba(27, 67, 50, 0.08);
+  animation: dotPulse 300ms ease-out forwards;
+}
+
+@keyframes dotPulse {
+  from {
+    opacity: 1;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+/* ---- Number Pad ---- */
+
+.pin-numpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 280px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.pin-numpad-btn {
+  width: 100%;
+  aspect-ratio: 1 / 0.85;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-headline);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  background: var(--color-surface-container);
+  border: 1.5px solid var(--color-outline-variant);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.pin-numpad-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-primary-container);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.pin-numpad-btn:hover {
+  background: var(--color-surface-container-highest);
+  border-color: var(--color-outline);
+}
+
+.pin-numpad-btn:active {
+  transform: scale(0.93);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+  border-color: var(--color-primary-container);
+}
+
+.pin-numpad-btn:focus-visible {
+  outline: 2px solid var(--color-primary-container);
+  outline-offset: 2px;
+}
+
+/* Zero button — center column */
+.pin-numpad-btn.btn-zero {
+  grid-column: 2;
+}
+
+/* Empty spacer */
+.pin-numpad-spacer {
+  /* invisible spacer */
+}
+
+/* Backspace button */
+.pin-numpad-btn.btn-backspace {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-outline);
+}
+
+.pin-numpad-btn.btn-backspace:hover {
+  color: var(--color-on-surface);
+  background: var(--color-surface-container);
+  border-color: var(--color-outline-variant);
+}
+
+.pin-numpad-btn.btn-backspace:active {
+  transform: scale(0.9);
+  color: var(--color-error);
+  background: var(--color-error-container);
+  border-color: transparent;
+}
+
+.pin-numpad-btn.btn-backspace svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ---- Shake Animation (error state) ---- */
+
+.pin-shake .pin-dots {
+  animation: shakeError 400ms ease-in-out;
+}
+
+.pin-shake .pin-dot {
+  border-color: var(--color-error);
+}
+
+.pin-shake .pin-dot.filled {
+  background: var(--color-error);
+  border-color: var(--color-error);
+}
+
+@keyframes shakeError {
+  0%, 100% { transform: translateX(0); }
+  10%, 50%, 90% { transform: translateX(-8px); }
+  30%, 70% { transform: translateX(8px); }
+}
+
+/* ---- Error message ---- */
+
+.pin-error-msg {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-error);
+  text-align: center;
+  min-height: 20px;
+  animation: fadeInUp 200ms ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

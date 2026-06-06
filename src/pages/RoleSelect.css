@@ -1,0 +1,221 @@
+/* ============================================
+   RoleSelect Page
+   ============================================ */
+
+.role-select-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100dvh;
+  padding: var(--space-6);
+  background: linear-gradient(
+    175deg,
+    var(--color-surface) 0%,
+    #eef3f0 60%,
+    #e8f0ec 100%
+  );
+  animation: pageSlideIn var(--transition-slow) forwards;
+}
+
+/* ---- Branding ---- */
+
+.role-select-brand {
+  text-align: center;
+  margin-bottom: var(--space-12);
+}
+
+.role-select-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.role-select-logo-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--color-primary-container);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+
+.role-select-logo-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-on-primary);
+}
+
+.role-select-title {
+  font-family: var(--font-headline);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.role-select-subtitle {
+  font-family: var(--font-hindi);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--color-outline);
+  margin-top: var(--space-1);
+  letter-spacing: 0.5px;
+}
+
+/* ---- Role Cards ---- */
+
+.role-select-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  width: 100%;
+  max-width: 420px;
+}
+
+@media (max-width: 380px) {
+  .role-select-cards {
+    grid-template-columns: 1fr;
+    max-width: 260px;
+  }
+}
+
+.role-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 160px;
+  padding: var(--space-6) var(--space-4);
+  background: #ffffff;
+  border: 2px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.role-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+  transition: width var(--transition-normal);
+}
+
+/* Owner card — green accent */
+.role-card.role-owner::before {
+  background: var(--color-primary-container);
+}
+
+.role-card.role-owner:hover {
+  border-color: var(--color-primary-container);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.role-card.role-owner:active {
+  transform: translateY(0) scale(0.97);
+  background: #f0f7f4;
+}
+
+/* Staff card — amber accent */
+.role-card.role-staff::before {
+  background: var(--color-secondary-container);
+}
+
+.role-card.role-staff:hover {
+  border-color: var(--color-secondary-container);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
+}
+
+.role-card.role-staff:active {
+  transform: translateY(0) scale(0.97);
+  background: #fef9eb;
+}
+
+/* Card icon */
+.role-card-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-owner .role-card-icon {
+  background: rgba(27, 67, 50, 0.08);
+  color: var(--color-primary-container);
+}
+
+.role-staff .role-card-icon {
+  background: rgba(255, 191, 0, 0.12);
+  color: var(--color-secondary);
+}
+
+.role-card-icon svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* Card label */
+.role-card-label {
+  font-family: var(--font-hindi);
+  font-size: 17px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.3;
+  color: var(--color-on-surface);
+}
+
+.role-card-sublabel {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-outline);
+  margin-top: -4px;
+}
+
+/* ---- Reset Link ---- */
+
+.role-select-footer {
+  margin-top: var(--space-12);
+  text-align: center;
+}
+
+.role-reset-link {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-outline);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  text-decoration: none;
+}
+
+.role-reset-link:hover {
+  color: var(--color-error);
+  background: var(--color-error-container);
+}
+
+.role-reset-link:focus-visible {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+}

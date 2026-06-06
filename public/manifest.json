@@ -1,0 +1,24 @@
+{
+  "name": "OrderFlow — ऑर्डर फ्लो",
+  "short_name": "OrderFlow",
+  "description": "Voice-first factory order management — आवाज़ से ऑर्डर मैनेज करें",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1b4332",
+  "background_color": "#f8f9fa",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

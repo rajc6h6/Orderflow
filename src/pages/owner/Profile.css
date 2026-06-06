@@ -1,0 +1,223 @@
+.profile-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--color-surface, #f8f9fa);
+  display: flex;
+  flex-direction: column;
+}
+
+.profile__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: var(--color-surface-container-lowest, #ffffff);
+  border-bottom: 1px solid var(--color-outline-variant, #c1c8c2);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.profile__back {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  color: var(--color-on-surface, #191c1d);
+}
+
+.profile__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-on-surface, #191c1d);
+  margin: 0;
+}
+
+.profile__content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.profile__card {
+  background: var(--color-surface-container-lowest, #ffffff);
+  border: 1px solid var(--color-outline-variant, #c1c8c2);
+  border-radius: var(--radius-lg, 16px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(27,67,50,0.08));
+}
+
+.profile__card-top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profile__avatar {
+  width: 56px;
+  height: 56px;
+  background: var(--color-primary-container, #1b4332);
+  color: var(--color-on-primary, #ffffff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile__info h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.profile__info p {
+  font-size: 14px;
+  color: var(--color-on-surface-variant, #414844);
+  margin: 4px 0 0;
+}
+
+.profile__logout-btn {
+  padding: 12px;
+  background: var(--color-error, #ba1a1a);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md, 8px);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile__staff-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile__staff-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile__staff-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.profile__add-btn {
+  padding: 8px 16px;
+  background: var(--color-primary-container, #1b4332);
+  color: #ffffff;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile__add-form {
+  background: var(--color-surface-container-lowest, #ffffff);
+  border: 1px solid var(--color-primary-container, #1b4332);
+  border-radius: var(--radius-lg, 16px);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile__add-form h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+
+.profile__input {
+  padding: 12px;
+  border: 1px solid var(--color-outline, #717973);
+  border-radius: var(--radius-md, 8px);
+  font-size: 16px;
+}
+
+.profile__form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.profile__cancel-btn, .profile__submit-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius-md, 8px);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile__cancel-btn {
+  background: transparent;
+  border: 1px solid var(--color-outline, #717973);
+  color: var(--color-on-surface, #191c1d);
+}
+
+.profile__submit-btn {
+  background: var(--color-primary-container, #1b4332);
+  color: #ffffff;
+  border: none;
+}
+.profile__submit-btn:disabled {
+  opacity: 0.7;
+}
+
+.profile__staff-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profile__staff-card {
+  background: var(--color-surface-container-lowest, #ffffff);
+  border: 1px solid var(--color-outline-variant, #c1c8c2);
+  border-radius: var(--radius-md, 12px);
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile__staff-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile__staff-name {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.profile__staff-phone {
+  font-size: 14px;
+  color: var(--color-on-surface-variant, #414844);
+}
+
+.profile__staff-delete {
+  background: transparent;
+  border: none;
+  color: var(--color-error, #ba1a1a);
+  cursor: pointer;
+  padding: 8px;
+}
+
+.profile__loading, .profile__empty {
+  text-align: center;
+  padding: 32px;
+  color: var(--color-on-surface-variant, #414844);
+}
