@@ -28,6 +28,7 @@ export default function OrderCard({ order, onClick, actionButton }) {
     items_readable,
     status = 'Pending',
     placed_at,
+    placed_by,
     note,
   } = order || {};
 
@@ -66,9 +67,14 @@ export default function OrderCard({ order, onClick, actionButton }) {
 
         <div className="order-card__footer">
           <span className="order-card__time">{getRelativeTime(placed_at)}</span>
-          {order_id && (
-            <span className="order-card__id">#{order_id}</span>
-          )}
+          <span className="order-card__footer-right">
+            {placed_by && placed_by !== 'Owner' && (
+              <span className="order-card__placed-by">by {placed_by}</span>
+            )}
+            {order_id && (
+              <span className="order-card__id">#{order_id}</span>
+            )}
+          </span>
         </div>
 
         {actionButton && (

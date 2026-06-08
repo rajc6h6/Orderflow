@@ -63,6 +63,10 @@ async function get(action, params = {}) {
     }
 
     const json = await res.json();
+    // Propagate GAS's own success/error flags — GAS always returns { success, data?, error? }
+    if (json.success === false) {
+      return { success: false, data: null, error: json.error || 'Request failed' };
+    }
     return { success: true, data: json.data ?? json, error: null };
   } catch (err) {
     console.error(`[sheetsService] GET ${action} failed:`, err);
@@ -156,6 +160,10 @@ async function post(action, body = {}) {
     }
 
     const json = await res.json();
+    // Propagate GAS's own success/error flags
+    if (json.success === false) {
+      return { success: false, data: null, error: json.error || 'Request failed' };
+    }
     return { success: true, data: json.data ?? json, error: null };
   } catch (err) {
     console.error(`[sheetsService] POST ${action} failed:`, err);

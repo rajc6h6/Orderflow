@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SuccessOverlay from '../../components/SuccessOverlay';
 import { generateOrderId } from '../../utils/formatters';
@@ -10,6 +11,7 @@ export default function ManualOrder() {
   const navigate = useNavigate();
   const location = useLocation();
   const { customers, products, addOrder, addCustomer } = useApp();
+  const { ownerProfile } = useAuth();
 
   const prefill = location.state?.prefill;
 
@@ -105,7 +107,7 @@ export default function ManualOrder() {
         status: 'Pending',
         placed_at: new Date().toISOString(),
         dispatched_at: '',
-        placed_by: 'Owner',
+        placed_by: ownerProfile?.name || 'Owner',
         dispatched_by: '',
       };
 

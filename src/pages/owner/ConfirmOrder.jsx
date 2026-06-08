@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import SuccessOverlay from '../../components/SuccessOverlay';
 import { generateOrderId } from '../../utils/formatters';
@@ -10,6 +11,7 @@ export default function ConfirmOrder() {
   const navigate = useNavigate();
   const location = useLocation();
   const { addOrder, addCustomer } = useApp();
+  const { ownerProfile } = useAuth();
 
   const extractedOrder = location.state?.orderData || location.state?.extractedOrder;
   const [saving, setSaving] = useState(false);
@@ -65,7 +67,7 @@ export default function ConfirmOrder() {
         status: 'Pending',
         placed_at: new Date().toISOString(),
         dispatched_at: '',
-        placed_by: 'Owner',
+        placed_by: ownerProfile?.name || 'Owner',
         dispatched_by: '',
       };
 
