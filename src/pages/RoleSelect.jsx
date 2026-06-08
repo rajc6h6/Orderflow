@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import './RoleSelect.css';
 
 function OrderFlowLogo() {
@@ -37,18 +36,6 @@ function StaffIcon() {
 
 export default function RoleSelect() {
   const navigate = useNavigate();
-  const { resetPins } = useAuth();
-
-  const handleRoleClick = (role) => {
-    navigate(`/login/${role}`);
-  };
-
-  const handleReset = () => {
-    if (window.confirm('यह सभी PINs को मिटा देगा। क्या आप सुनिश्चित हैं?\n\nThis will erase all PINs. Are you sure?')) {
-      resetPins();
-      window.location.reload();
-    }
-  };
 
   return (
     <div className="role-select-page">
@@ -67,7 +54,7 @@ export default function RoleSelect() {
       <div className="role-select-cards">
         <button
           className="role-card role-owner"
-          onClick={() => handleRoleClick('owner')}
+          onClick={() => navigate('/login/owner')}
           type="button"
           aria-label="Login as Owner — मालिक"
         >
@@ -80,7 +67,7 @@ export default function RoleSelect() {
 
         <button
           className="role-card role-staff"
-          onClick={() => handleRoleClick('staff')}
+          onClick={() => navigate('/login/staff')}
           type="button"
           aria-label="Login as Staff — स्टाफ"
         >
@@ -89,17 +76,6 @@ export default function RoleSelect() {
           </div>
           <span className="role-card-label hindi">मैं स्टाफ हूँ</span>
           <span className="role-card-sublabel">I am Staff</span>
-        </button>
-      </div>
-
-      {/* Footer */}
-      <div className="role-select-footer">
-        <button
-          className="role-reset-link"
-          onClick={handleReset}
-          type="button"
-        >
-          Reset PIN
         </button>
       </div>
     </div>

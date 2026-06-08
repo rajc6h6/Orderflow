@@ -1,14 +1,14 @@
-# OrderFlow
+﻿# OrderFlow
 
-A voice-based order management app built for small wholesale businesses in India. The owner records a voice note — something like *"Ramesh Trading ko 50 bucket aur 20 mug bhejne hain"* — and the app figures out the customer, products, and quantities on its own. Staff can then see those orders on their phones and mark them as dispatched.
+A voice-based order management app built for small wholesale businesses in India. The owner records a voice note ΓÇö something like *"Ramesh Trading ko 50 bucket aur 20 mug bhejne hain"* ΓÇö and the app figures out the customer, products, and quantities on its own. Staff can then see those orders on their phones and mark them as dispatched.
 
-**Live app:** https://orderflow-bice.vercel.app/
+**Live app:** [YOUR_VERCEL_URL.vercel.app](https://YOUR_VERCEL_URL.vercel.app)
 
 ---
 
 ## The Problem It Solves
 
-Most small factory owners in India still take orders over WhatsApp or on paper. There is no way to track what is pending, what got dispatched, or how much was sold in a month. OrderFlow gives them a proper system that works on any phone — for free.
+Most small factory owners in India still take orders over WhatsApp or on paper. There is no way to track what is pending, what got dispatched, or how much was sold in a month. OrderFlow gives them a proper system that works on any phone ΓÇö for free.
 
 ---
 
@@ -21,7 +21,7 @@ Most small factory owners in India still take orders over WhatsApp or on paper. 
 - Monthly order export to CSV for billing
 - Works offline and syncs when internet is back
 - Can be installed on the phone like a regular app (PWA)
-- All data goes to a Google Sheet — no database costs
+- All data goes to a Google Sheet ΓÇö no database costs
 
 ---
 
@@ -65,7 +65,7 @@ Staff dispatches it and marks it done
 
 The app saves the order locally first (IndexedDB). When the connection comes back, it syncs to Google Sheets automatically.
 
-### AI extraction — how it decides what to use
+### AI extraction ΓÇö how it decides what to use
 
 1. Tries the Google Apps Script backend first (most stable)
 2. Falls back to calling Gemini directly from the browser
@@ -87,27 +87,27 @@ This is an MVP, so authentication is kept simple on purpose.
 
 ```
 orderflow/
-├── google-apps-script/
-│   └── Code.gs              # Backend running on Google Apps Script
-├── public/
-│   ├── manifest.json        # PWA config
-│   └── sw.js                # Service Worker for offline support
-├── src/
-│   ├── components/          # Shared UI pieces
-│   ├── config/
-│   │   └── constants.js     # Apps Script URL and API key config
-│   ├── context/
-│   │   ├── AuthContext.jsx  # Login and session handling
-│   │   └── AppContext.jsx   # Orders, customers, products state
-│   ├── pages/
-│   │   ├── owner/           # Owner screens
-│   │   └── staff/           # Staff screens
-│   ├── services/
-│   │   ├── geminiService.js # AI order extraction
-│   │   └── sheetsService.js # Reads and writes to Google Sheets
-│   └── utils/
-├── vercel.json              # SPA routing config for Vercel
-└── vite.config.js
+Γö£ΓöÇΓöÇ google-apps-script/
+Γöé   ΓööΓöÇΓöÇ Code.gs              # Backend running on Google Apps Script
+Γö£ΓöÇΓöÇ public/
+Γöé   Γö£ΓöÇΓöÇ manifest.json        # PWA config
+Γöé   ΓööΓöÇΓöÇ sw.js                # Service Worker for offline support
+Γö£ΓöÇΓöÇ src/
+Γöé   Γö£ΓöÇΓöÇ components/          # Shared UI pieces
+Γöé   Γö£ΓöÇΓöÇ config/
+Γöé   Γöé   ΓööΓöÇΓöÇ constants.js     # Apps Script URL and API key config
+Γöé   Γö£ΓöÇΓöÇ context/
+Γöé   Γöé   Γö£ΓöÇΓöÇ AuthContext.jsx  # Login and session handling
+Γöé   Γöé   ΓööΓöÇΓöÇ AppContext.jsx   # Orders, customers, products state
+Γöé   Γö£ΓöÇΓöÇ pages/
+Γöé   Γöé   Γö£ΓöÇΓöÇ owner/           # Owner screens
+Γöé   Γöé   ΓööΓöÇΓöÇ staff/           # Staff screens
+Γöé   Γö£ΓöÇΓöÇ services/
+Γöé   Γöé   Γö£ΓöÇΓöÇ geminiService.js # AI order extraction
+Γöé   Γöé   ΓööΓöÇΓöÇ sheetsService.js # Reads and writes to Google Sheets
+Γöé   ΓööΓöÇΓöÇ utils/
+Γö£ΓöÇΓöÇ vercel.json              # SPA routing config for Vercel
+ΓööΓöÇΓöÇ vite.config.js
 ```
 
 ---
@@ -121,3 +121,7 @@ orderflow/
 - WhatsApp sharing for order summaries
 
 ---
+
+## License
+
+MIT ΓÇö [Raj Jaiswal](https://github.com/rajc6h6)

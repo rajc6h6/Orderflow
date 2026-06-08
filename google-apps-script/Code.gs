@@ -48,6 +48,9 @@ function doGet(e) {
       case 'getStaff':
         result = getStaff();
         break;
+      case 'getOwner':
+        result = getOwner(e.parameter.phone);
+        break;
       case 'ping':
         result = { success: true, message: 'OrderFlow API is running' };
         break;
@@ -95,6 +98,12 @@ function doPost(e) {
         break;
       case 'deleteStaff':
         result = deleteStaff(data.phone);
+        break;
+      case 'registerOwner':
+        result = registerOwner(data.phone, data.pin_hash, data.name, data.business_name);
+        break;
+      case 'updateOwnerPin':
+        result = updateOwnerPin(data.phone, data.new_pin_hash);
         break;
       case 'extractOrder':
         result = extractOrderWithGemini(data.transcript, data.customers, data.products);
@@ -501,6 +510,88 @@ Rules:
 }
 
 // ============================================================
+// OWNER ACCOUNT
+// ============================================================
+
+const OWNER_HEADERS = ['phone', 'pin_hash', 'name', 'business_name', 'registered_at'];
+
+/**
+ * Get owner by phone number.
+ * Returns { success, data: ownerObject } or { success: false, error }
+ */
+function getOwner(phone) {
+  if (!phone) return { success: false, error: 'Phone is required' };
+  
+  const sheet = getOrCreateSheet('Owner', OWNER_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  
+  if (data.length <= 1) return { success: false, error: 'No owner registered' };
+  
+  const headers = data[0];
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    if (row[0] && row[0].toString() === phone.toString()) {
+      const owner = {};
+      headers.forEach((h, idx) => { owner[h] = row[idx]; });
+      return { success: true, data: owner };
+    }
+  }
+  
+  return { success: false, error: 'Owner not found' };
+}
+
+/**
+ * Register a new owner. Only one owner allowed per spreadsheet.
+ */
+function registerOwner(phone, pinHash, name, businessName) {
+  if (!phone || !pinHash || !name) {
+    return { success: false, error: 'Phone, PIN, and name are required' };
+  }
+  
+  const sheet = getOrCreateSheet('Owner', OWNER_HEADERS);
+  const existing = sheet.getDataRange().getValues();
+  
+  // Check if already registered (any row beyond header)
+  if (existing.length > 1) {
+    return { success: false, error: 'Owner already registered' };
+  }
+  
+  const now = new Date().toISOString();
+  sheet.appendRow([phone.toString(), pinHash, name, businessName || '', now]);
+  
+  return {
+    success: true,
+    data: {
+      phone: phone.toString(),
+      name: name,
+      business_name: businessName || '',
+      registered_at: now
+    }
+  };
+}
+
+/**
+ * Update owner PIN (used for change-PIN / forgot-PIN flow).
+ */
+function updateOwnerPin(phone, newPinHash) {
+  if (!phone || !newPinHash) {
+    return { success: false, error: 'Phone and new PIN hash are required' };
+  }
+  
+  const sheet = getOrCreateSheet('Owner', OWNER_HEADERS);
+  const data = sheet.getDataRange().getValues();
+  
+  for (let i = 1; i < data.length; i++) {
+    if (data[i][0] && data[i][0].toString() === phone.toString()) {
+      sheet.getRange(i + 1, 2).setValue(newPinHash); // column 2 = pin_hash
+      return { success: true, data: { phone: phone.toString(), updated: true } };
+    }
+  }
+  
+  return { success: false, error: 'Owner not found' };
+}
+
+// ============================================================
 // INITIALIZATION — Run once to set up the spreadsheet
 // ============================================================
 
@@ -509,6 +600,7 @@ function initializeSpreadsheet() {
   getOrCreateSheet('Orders', ORDER_HEADERS);
   getOrCreateSheet('Customers', CUSTOMER_HEADERS);
   getOrCreateSheet('Staff', STAFF_HEADERS);
+  getOrCreateSheet('Owner', OWNER_HEADERS);
   const productsSheet = getOrCreateSheet('Products', PRODUCT_HEADERS);
   
   // Pre-fill products if empty

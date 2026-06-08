@@ -1,0 +1,344 @@
+/* ============================================
+   OwnerLogin Page — matches app design system
+   ============================================ */
+
+.owner-login-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+
+/* Back button */
+.owner-login-back {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: var(--z-sticky);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--color-on-surface);
+  transition: background var(--duration-fast);
+}
+
+.owner-login-back:hover {
+  background: var(--color-surface-container);
+}
+
+.owner-login-back svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Card — centered content area */
+.owner-login-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--space-6) var(--space-12);
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+  animation: slideUp var(--duration-slow) var(--easing-decelerate) both;
+}
+
+/* Header */
+.owner-login-header {
+  text-align: center;
+  margin-bottom: var(--space-8);
+  margin-top: var(--space-6);
+}
+
+.owner-login-shield {
+  width: 72px;
+  height: 72px;
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-4);
+  box-shadow: var(--shadow-md);
+  margin-top: var(--space-10);
+}
+
+.owner-login-shield.forgot {
+  background: var(--color-secondary);
+}
+
+.owner-login-shield svg {
+  width: 34px;
+  height: 34px;
+}
+
+.owner-login-title {
+  font-family: var(--font-hindi);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin: 0 0 var(--space-2);
+}
+
+.owner-login-subtitle {
+  font-size: 15px;
+  color: var(--color-outline);
+  margin: 0;
+}
+
+/* Phone field */
+.owner-login-phone-wrap {
+  width: 100%;
+  margin-bottom: var(--space-6);
+}
+
+.owner-login-phone-wrap label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: var(--space-2);
+}
+
+.owner-login-phone-input {
+  display: block;
+  width: 100%;
+  min-height: var(--min-touch-target);
+  padding: var(--space-3) var(--space-4);
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 2px;
+  background: var(--color-surface-container-lowest);
+  border: 2px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  outline: none;
+  color: var(--color-on-surface);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+  box-sizing: border-box;
+  -webkit-appearance: none;
+}
+
+.owner-login-phone-input::placeholder {
+  color: var(--color-outline);
+  letter-spacing: 0;
+  font-size: 15px;
+}
+
+.owner-login-phone-input:focus {
+  border-color: var(--color-primary-container);
+}
+
+.owner-login-phone-input:disabled {
+  opacity: 0.5;
+}
+
+/* PIN section */
+.owner-login-pin-wrap {
+  width: 100%;
+  margin-bottom: var(--space-2);
+}
+
+.owner-login-pin-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  text-align: center;
+  margin: 0 0 var(--space-4);
+}
+
+/* Spinner */
+.owner-login-spinner-wrap {
+  display: flex;
+  justify-content: center;
+  padding: var(--space-6) 0;
+}
+
+.owner-login-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-outline-variant);
+  border-top-color: var(--color-primary-container);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+/* Hint */
+.owner-login-hint {
+  font-size: 13px;
+  color: var(--color-outline);
+  text-align: center;
+  margin: var(--space-2) 0 0;
+}
+
+/* Success/info message */
+.owner-login-error {
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  background: rgba(27, 67, 50, 0.08);
+  color: var(--color-primary-container);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: var(--space-3) 0 0;
+  border: 1px solid rgba(27, 67, 50, 0.2);
+}
+
+/* Forgot PIN link */
+.owner-login-forgot-btn {
+  display: block;
+  background: none;
+  border: none;
+  color: var(--color-outline);
+  font-size: 14px;
+  font-family: var(--font-body);
+  cursor: pointer;
+  padding: var(--space-3) var(--space-4);
+  margin-top: var(--space-4);
+  text-align: center;
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast), background var(--duration-fast);
+}
+
+.owner-login-forgot-btn:hover {
+  color: var(--color-on-surface);
+  background: var(--color-surface-container);
+}
+
+/* Forgot form */
+.owner-forgot-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  animation: fadeIn var(--duration-normal) var(--easing-decelerate) both;
+}
+
+.owner-forgot-desc {
+  font-size: 15px;
+  color: var(--color-outline);
+  margin: 0;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.owner-forgot-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.owner-forgot-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-outline);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+.owner-forgot-field input {
+  display: block;
+  width: 100%;
+  min-height: var(--min-touch-target);
+  padding: var(--space-3) var(--space-4);
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 2px;
+  background: var(--color-surface-container-lowest);
+  border: 2px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  outline: none;
+  color: var(--color-on-surface);
+  box-sizing: border-box;
+  transition: border-color var(--duration-fast) var(--easing-standard);
+  -webkit-appearance: none;
+}
+
+.owner-forgot-field input::placeholder {
+  color: var(--color-outline);
+  letter-spacing: 0;
+  font-size: 15px;
+}
+
+.owner-forgot-field input:focus {
+  border-color: var(--color-primary-container);
+}
+
+.owner-forgot-error {
+  font-size: 14px;
+  text-align: center;
+  background: var(--color-error-container);
+  color: var(--color-error);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
+}
+
+.owner-forgot-btn {
+  width: 100%;
+  min-height: var(--min-touch-target);
+  padding: var(--space-3) var(--space-6);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary);
+  font-size: var(--text-body-lg);
+  font-weight: var(--weight-semibold);
+  font-family: var(--font-body);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--duration-fast) var(--easing-standard),
+              box-shadow var(--duration-fast) var(--easing-standard),
+              transform var(--duration-fast) var(--easing-standard);
+}
+
+.owner-forgot-btn:hover:not(:disabled) {
+  background: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.owner-forgot-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.owner-forgot-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Forgot PIN — PIN entry section */
+.owner-reg-pin-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  animation: fadeIn var(--duration-normal) var(--easing-decelerate) both;
+}
+
+.owner-forgot-pin-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin: 0;
+  text-align: center;
+}
+
+.owner-forgot-pin-hint {
+  font-family: var(--font-hindi);
+  font-size: 15px;
+  color: var(--color-outline);
+  margin: 0 0 var(--space-3);
+  text-align: center;
+}

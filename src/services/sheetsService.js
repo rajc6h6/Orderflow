@@ -17,9 +17,9 @@ const mockDelay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const getMockDb = () => {
   try {
-    return JSON.parse(localStorage.getItem('orderflow_mock_db') || '{"orders":[],"customers":[],"products":[],"staff":[]}');
+    return JSON.parse(localStorage.getItem('orderflow_mock_db') || '{"orders":[],"customers":[],"products":[],"staff":[],"owner":null}');
   } catch {
-    return { orders: [], customers: [], products: [], staff: [] };
+    return { orders: [], customers: [], products: [], staff: [], owner: null };
   }
 };
 
@@ -40,6 +40,12 @@ async function get(action, params = {}) {
       if (action === 'getCustomers') data = db.customers;
       if (action === 'getProducts') data = db.products;
       if (action === 'getStaff') data = db.staff || [];
+      if (action === 'getOwner') {
+        const phone = params.phone;
+        const owner = db.owner;
+        if (owner && owner.phone === phone) return { success: true, data: owner, error: null };
+        return { success: false, data: null, error: 'Owner not found' };
+      }
       return { success: true, data, error: null };
     }
 
@@ -112,6 +118,27 @@ async function post(action, body = {}) {
         if (!db.staff) db.staff = [];
         db.staff = db.staff.filter(s => s.phone !== body.phone);
         setMockDb(db);
+      }
+      else if (action === 'registerOwner') {
+        if (db.owner) return { success: false, error: 'Owner already registered' };
+        db.owner = {
+          phone: body.phone,
+          pin_hash: body.pin_hash,
+          name: body.name,
+          business_name: body.business_name || '',
+          registered_at: new Date().toISOString()
+        };
+        setMockDb(db);
+        returnData = db.owner;
+      }
+      else if (action === 'updateOwnerPin') {
+        if (db.owner && db.owner.phone === body.phone) {
+          db.owner.pin_hash = body.new_pin_hash;
+          setMockDb(db);
+          returnData = { phone: body.phone, updated: true };
+        } else {
+          return { success: false, error: 'Owner not found' };
+        }
       }
 
       return { success: true, data: returnData, error: null };
@@ -222,4 +249,35 @@ export function addStaff(phone, pinHash, name) {
  */
 export function deleteStaff(phone) {
   return post('deleteStaff', { phone });
+}
+
+/**
+ * Fetch owner account by phone.
+ *
+ * @param {string} phone
+ */
+export function getOwner(phone) {
+  return get('getOwner', { phone });
+}
+
+/**
+ * Register owner account (first-time setup).
+ *
+ * @param {string} phone
+ * @param {string} pinHash — btoa-encoded PIN
+ * @param {string} name
+ * @param {string} businessName
+ */
+export function registerOwner(phone, pinHash, name, businessName) {
+  return post('registerOwner', { phone, pin_hash: pinHash, name, business_name: businessName });
+}
+
+/**
+ * Update owner PIN.
+ *
+ * @param {string} phone
+ * @param {string} newPinHash
+ */
+export function updateOwnerPin(phone, newPinHash) {
+  return post('updateOwnerPin', { phone, new_pin_hash: newPinHash });
 }

@@ -221,3 +221,94 @@
   padding: 32px;
   color: var(--color-on-surface-variant, #414844);
 }
+
+/* ---- New owner info elements ---- */
+.profile__phone {
+  font-size: 13px;
+  color: var(--color-primary-container, #1b4332);
+  font-weight: 500;
+  margin: 4px 0 0;
+}
+
+.profile__owner-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.profile__change-pin-btn {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: 1.5px solid var(--color-primary-container, #1b4332);
+  color: var(--color-primary-container, #1b4332);
+  border-radius: var(--radius-md, 8px);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.profile__change-pin-btn:hover {
+  background: rgba(27, 67, 50, 0.08);
+}
+
+.profile__logout-btn {
+  flex: 1;
+  padding: 12px;
+  background: var(--color-error, #ba1a1a);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md, 8px);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---- Change PIN panel ---- */
+.profile__change-pin-card {
+  background: var(--color-surface-container-lowest, #ffffff);
+  border: 1.5px solid var(--color-primary-container, #1b4332);
+  border-radius: var(--radius-lg, 16px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(27,67,50,0.08));
+  animation: fadeDown 0.2s ease both;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.profile__change-pin-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.profile__change-pin-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.profile__close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--color-on-surface-variant, #414844);
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.profile__pin-hint {
+  font-size: 14px;
+  color: var(--color-on-surface-variant, #414844);
+  text-align: center;
+  margin: 0;
+}
+

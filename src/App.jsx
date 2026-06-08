@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { AppProvider } from './context/AppContext';
+import { STORAGE_KEYS } from './config/constants';
 
 // Auth pages
 import RoleSelect from './pages/RoleSelect';
-import PinLogin from './pages/PinLogin';
+import OwnerRegister from './pages/OwnerRegister';
+import OwnerLogin from './pages/OwnerLogin';
 import StaffLogin from './pages/StaffLogin';
 
 // Owner pages
@@ -23,7 +25,6 @@ import DispatchedToday from './pages/staff/DispatchedToday';
 
 /**
  * ProtectedRoute — guards routes by role
- * Redirects to '/' if not authenticated for the required role
  */
 function ProtectedRoute({ requiredRole, children }) {
   const { role, isAuthenticated } = useAuth();
@@ -40,125 +41,71 @@ function ProtectedRoute({ requiredRole, children }) {
 }
 
 /**
- * HomeRedirect — handles '/' route logic
- * MVP: always shows RoleSelect (PIN 0000 works without any setup step).
+ * HomeRedirect — smart entry point:
+ *  1. Already authenticated → go to their dashboard
+ *  2. Owner account exists in localStorage → go to /login/owner
+ *  3. No owner account ever registered → go to /register/owner
+ *  4. Otherwise show RoleSelect (catches staff)
  */
 function HomeRedirect() {
   const { isAuthenticated, role } = useAuth();
 
-  // If already authenticated, redirect to their dashboard
+  // Already logged in
   if (isAuthenticated && role) {
     return <Navigate to={`/${role}`} replace />;
   }
 
-  // MVP: skip PinSetup, go straight to role selection
-  return <RoleSelect />;
+  // Check if owner account profile is cached locally
+  try {
+    const profile = localStorage.getItem(STORAGE_KEYS.OWNER_PROFILE);
+    if (profile) {
+      // Account exists → show login screen directly
+      return <Navigate to="/login/owner" replace />;
+    } else {
+      // No account ever → show registration
+      return <Navigate to="/register/owner" replace />;
+    }
+  } catch {
+    return <Navigate to="/register/owner" replace />;
+  }
 }
 
 /**
- * AppRoutes — all routes wrapped in auth context
+ * AppRoutes — all routes
  */
 function AppRoutes() {
   return (
     <Routes>
-      {/* Home / Auth */}
+      {/* Entry point */}
       <Route path="/" element={<HomeRedirect />} />
-      <Route path="/login/owner" element={<PinLogin />} />
+
+      {/* Auth */}
+      <Route path="/register/owner" element={<OwnerRegister />} />
+      <Route path="/login/owner" element={<OwnerLogin />} />
       <Route path="/login/staff" element={<StaffLogin />} />
+      {/* RoleSelect still accessible for staff to navigate to their login */}
+      <Route path="/select-role" element={<RoleSelect />} />
 
       {/* Owner routes (protected) */}
-      <Route
-        path="/owner"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/voice-order"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <VoiceOrder />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/confirm-order"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <ConfirmOrder />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/manual-order"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <ManualOrder />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/orders/:id"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <OrderDetail />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/customers"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <CustomerList />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/export"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <MonthlyExport />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/owner/profile"
-        element={
-          <ProtectedRoute requiredRole="owner">
-            <Profile />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/owner" element={<ProtectedRoute requiredRole="owner"><Dashboard /></ProtectedRoute>} />
+      <Route path="/owner/voice-order" element={<ProtectedRoute requiredRole="owner"><VoiceOrder /></ProtectedRoute>} />
+      <Route path="/owner/confirm-order" element={<ProtectedRoute requiredRole="owner"><ConfirmOrder /></ProtectedRoute>} />
+      <Route path="/owner/manual-order" element={<ProtectedRoute requiredRole="owner"><ManualOrder /></ProtectedRoute>} />
+      <Route path="/owner/orders/:id" element={<ProtectedRoute requiredRole="owner"><OrderDetail /></ProtectedRoute>} />
+      <Route path="/owner/customers" element={<ProtectedRoute requiredRole="owner"><CustomerList /></ProtectedRoute>} />
+      <Route path="/owner/export" element={<ProtectedRoute requiredRole="owner"><MonthlyExport /></ProtectedRoute>} />
+      <Route path="/owner/profile" element={<ProtectedRoute requiredRole="owner"><Profile /></ProtectedRoute>} />
 
       {/* Staff routes (protected) */}
-      <Route
-        path="/staff"
-        element={
-          <ProtectedRoute requiredRole="staff">
-            <OrderQueue />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/staff/dispatched"
-        element={
-          <ProtectedRoute requiredRole="staff">
-            <DispatchedToday />
-          </ProtectedRoute>
-        }
-      />
+      <Route path="/staff" element={<ProtectedRoute requiredRole="staff"><OrderQueue /></ProtectedRoute>} />
+      <Route path="/staff/dispatched" element={<ProtectedRoute requiredRole="staff"><DispatchedToday /></ProtectedRoute>} />
 
-      {/* Catch-all: redirect to home */}
+      {/* Catch-all */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
 
-/**
- * App — root component
- */
 export default function App() {
   return (
     <BrowserRouter>

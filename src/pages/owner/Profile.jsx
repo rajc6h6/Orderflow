@@ -4,18 +4,27 @@ import { useAuth, encodePin } from '../../context/AuthContext';
 import * as sheetsService from '../../services/sheetsService';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import Toast from '../../components/Toast';
+import PinInput from '../../components/PinInput';
 import './Profile.css';
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
-  
+  const { logout, ownerProfile, changeOwnerPin } = useAuth();
+
   const [staffList, setStaffList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState({ visible: false, message: '', type: 'success' });
   const [showAddForm, setShowAddForm] = useState(false);
 
-  // Form state
+  // Change PIN state
+  const [showChangePin, setShowChangePin] = useState(false);
+  const [changePinStep, setChangePinStep] = useState('current'); // 'current' | 'new' | 'confirm'
+  const [currentPinOk, setCurrentPinOk] = useState(false);
+  const [newPinTemp, setNewPinTemp] = useState('');
+  const [currentPinError, setCurrentPinError] = useState(false);
+  const [changePinLoading, setChangePinLoading] = useState(false);
+
+  // Add staff form state
   const [phone, setPhone] = useState('');
   const [pin, setPin] = useState('');
   const [name, setName] = useState('');
@@ -28,9 +37,7 @@ export default function Profile() {
   const fetchStaff = async () => {
     setLoading(true);
     const res = await sheetsService.getStaff();
-    if (res.success) {
-      setStaffList(res.data);
-    }
+    if (res.success) setStaffList(res.data);
     setLoading(false);
   };
 
@@ -63,7 +70,6 @@ export default function Profile() {
       setToast({ visible: true, message: 'PIN 4 अंकों का होना चाहिए', type: 'error' });
       return;
     }
-
     setAdding(true);
     const pinHash = encodePin(String(pin));
     const res = await sheetsService.addStaff(phone, pinHash, name);
@@ -72,13 +78,60 @@ export default function Profile() {
     if (res.success) {
       setStaffList([...staffList, res.data]);
       setShowAddForm(false);
-      setPhone('');
-      setPin('');
-      setName('');
+      setPhone(''); setPin(''); setName('');
       setToast({ visible: true, message: 'स्टाफ जोड़ दिया गया / Staff added', type: 'success' });
     } else {
       setToast({ visible: true, message: res.error || 'Error adding staff', type: 'error' });
     }
+  };
+
+  /* ---- Change PIN handlers ---- */
+  const handleCurrentPin = async (enteredPin) => {
+    setChangePinLoading(true);
+    const res = await sheetsService.getOwner(ownerProfile?.phone || '');
+    setChangePinLoading(false);
+
+    if (!res.success || res.data?.pin_hash !== encodePin(enteredPin)) {
+      setCurrentPinError(true);
+      setTimeout(() => setCurrentPinError(false), 800);
+      return;
+    }
+    setCurrentPinOk(true);
+    setChangePinStep('new');
+  };
+
+  const handleNewPin = (pin) => {
+    setNewPinTemp(pin);
+    setChangePinStep('confirm');
+  };
+
+  const handleConfirmNewPin = async (confirmPin) => {
+    if (confirmPin !== newPinTemp) {
+      setCurrentPinError(true);
+      setTimeout(() => { setCurrentPinError(false); setNewPinTemp(''); setChangePinStep('new'); }, 900);
+      return;
+    }
+    setChangePinLoading(true);
+    const res = await sheetsService.updateOwnerPin(ownerProfile?.phone || '', encodePin(confirmPin));
+    setChangePinLoading(false);
+
+    if (res.success) {
+      setToast({ visible: true, message: 'PIN बदल दिया गया / PIN updated', type: 'success' });
+      setShowChangePin(false);
+      setChangePinStep('current');
+      setCurrentPinOk(false);
+      setNewPinTemp('');
+    } else {
+      setToast({ visible: true, message: res.error || 'Failed to update PIN', type: 'error' });
+    }
+  };
+
+  const resetChangePinFlow = () => {
+    setShowChangePin(false);
+    setChangePinStep('current');
+    setCurrentPinOk(false);
+    setNewPinTemp('');
+    setCurrentPinError(false);
   };
 
   return (
@@ -93,7 +146,8 @@ export default function Profile() {
       </div>
 
       <div className="profile__content">
-        {/* Owner Card */}
+
+        {/* ---- Owner Card ---- */}
         <div className="profile__card">
           <div className="profile__card-top">
             <div className="profile__avatar">
@@ -102,16 +156,74 @@ export default function Profile() {
               </svg>
             </div>
             <div className="profile__info">
-              <h2>मालिक / Owner</h2>
-              <p>Admin Account</p>
+              <h2>{ownerProfile?.name || 'मालिक / Owner'}</h2>
+              <p>{ownerProfile?.business_name || 'Admin Account'}</p>
+              {ownerProfile?.phone && (
+                <p className="profile__phone">📱 {ownerProfile.phone}</p>
+              )}
             </div>
           </div>
-          <button className="profile__logout-btn" onClick={handleLogout}>
-            लॉगआउट / Logout
-          </button>
+
+          <div className="profile__owner-actions">
+            <button
+              className="profile__change-pin-btn"
+              onClick={() => { setShowChangePin(true); setChangePinStep('current'); }}
+            >
+              🔐 PIN बदलें / Change PIN
+            </button>
+            <button className="profile__logout-btn" onClick={handleLogout}>
+              लॉगआउट / Logout
+            </button>
+          </div>
         </div>
 
-        {/* Staff Management */}
+        {/* ---- Change PIN Panel ---- */}
+        {showChangePin && (
+          <div className="profile__change-pin-card">
+            <div className="profile__change-pin-header">
+              <h3>PIN बदलें / Change PIN</h3>
+              <button onClick={resetChangePinFlow} className="profile__close-btn" type="button">✕</button>
+            </div>
+
+            {changePinLoading ? (
+              <div className="profile__loading"><LoadingSpinner /></div>
+            ) : changePinStep === 'current' ? (
+              <>
+                <p className="profile__pin-hint">Enter your current PIN</p>
+                <PinInput
+                  key="current-pin"
+                  length={4}
+                  onComplete={handleCurrentPin}
+                  error={currentPinError}
+                  errorMessage={currentPinError ? 'Incorrect PIN' : ''}
+                />
+              </>
+            ) : changePinStep === 'new' ? (
+              <>
+                <p className="profile__pin-hint">Enter new PIN</p>
+                <PinInput
+                  key="new-pin"
+                  length={4}
+                  onComplete={handleNewPin}
+                  error={false}
+                />
+              </>
+            ) : (
+              <>
+                <p className="profile__pin-hint">Confirm new PIN</p>
+                <PinInput
+                  key="confirm-pin"
+                  length={4}
+                  onComplete={handleConfirmNewPin}
+                  error={currentPinError}
+                  errorMessage={currentPinError ? 'PINs do not match' : ''}
+                />
+              </>
+            )}
+          </div>
+        )}
+
+        {/* ---- Staff Management ---- */}
         <div className="profile__staff-section">
           <div className="profile__staff-header">
             <h2>स्टाफ / Staff Members</h2>
@@ -181,11 +293,11 @@ export default function Profile() {
         </div>
       </div>
 
-      <Toast 
-        message={toast.message} 
-        type={toast.type} 
-        visible={toast.visible} 
-        onClose={() => setToast(t => ({ ...t, visible: false }))} 
+      <Toast
+        message={toast.message}
+        type={toast.type}
+        visible={toast.visible}
+        onClose={() => setToast(t => ({ ...t, visible: false }))}
       />
     </div>
   );

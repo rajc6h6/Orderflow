@@ -45,4 +45,7 @@ export const STORAGE_KEYS = {
   CACHED_CUSTOMERS: 'orderflow_customers',
   CACHED_PRODUCTS: 'orderflow_products',
   CURRENT_ROLE: 'orderflow_role',
+  // Owner account persistence
+  OWNER_LOGGED_IN: 'orderflow_owner_logged_in',
+  OWNER_PROFILE: 'orderflow_owner_profile',
 };
