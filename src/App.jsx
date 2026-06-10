@@ -55,19 +55,8 @@ function HomeRedirect() {
     return <Navigate to={`/${role}`} replace />;
   }
 
-  // Check if owner account profile is cached locally
-  try {
-    const profile = localStorage.getItem(STORAGE_KEYS.OWNER_PROFILE);
-    if (profile) {
-      // Account exists → show login screen directly
-      return <Navigate to="/login/owner" replace />;
-    } else {
-      // No account ever → show registration
-      return <Navigate to="/register/owner" replace />;
-    }
-  } catch {
-    return <Navigate to="/register/owner" replace />;
-  }
+  // Show the role selection screen to choose Owner or Staff
+  return <Navigate to="/select-role" replace />;
 }
 
 /**
