@@ -342,3 +342,6 @@
   margin: 0 0 var(--space-3);
   text-align: center;
 }
+
+.owner-login-actions-col { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 16px; }
+.owner-login-register-btn { background: none; border: none; color: #1b4332; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: underline; padding: 8px; }

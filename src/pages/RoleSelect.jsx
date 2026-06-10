@@ -54,7 +54,13 @@ export default function RoleSelect() {
       <div className="role-select-cards">
         <button
           className="role-card role-owner"
-          onClick={() => navigate('/login/owner')}
+          onClick={() => {
+            if (localStorage.getItem('orderflow_owner_logged_in') === 'true') {
+              navigate('/owner');
+            } else {
+              navigate('/register/owner');
+            }
+          }}
           type="button"
           aria-label="Login as Owner — मालिक"
         >

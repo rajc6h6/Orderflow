@@ -226,6 +226,21 @@ export default function OwnerRegister() {
         <p className="owner-reg-footer-note">
           By registering, all your data will be securely stored in your Google Sheet.
         </p>
+
+        <div style={{ textAlign: 'center', marginTop: '1.5rem', marginBottom: '1rem' }}>
+          <button 
+            type="button" 
+            style={{
+              background: 'none', border: 'none', color: 'var(--primary-color)',
+              fontSize: '1rem', fontWeight: '500', cursor: 'pointer', textDecoration: 'underline'
+            }}
+            onClick={() => navigate('/login/owner')}
+          >
+            पहले से रजिस्टर हैं? यहाँ लॉगिन करें
+            <br/>
+            (Already registered? Login here)
+          </button>
+        </div>
       </div>
     </div>
   );

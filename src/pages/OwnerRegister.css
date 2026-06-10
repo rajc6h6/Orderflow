@@ -313,3 +313,6 @@
   margin: var(--space-4) 0 0;
   line-height: 1.5;
 }
+
+.owner-reg-login-link { margin-top: 8px; font-size: 14px; }
+.text-link { background: none; border: none; color: #1b4332; font-weight: 600; cursor: pointer; text-decoration: underline; padding: 0; font-size: inherit; }

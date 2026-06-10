@@ -211,6 +211,21 @@ export default function OwnerLogin() {
             >
               PIN भूल गए? / Forgot PIN?
             </button>
+
+            <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+              <button 
+                type="button" 
+                style={{
+                  background: 'none', border: 'none', color: 'var(--primary-color)',
+                  fontSize: '1rem', fontWeight: '500', cursor: 'pointer', textDecoration: 'underline'
+                }}
+                onClick={() => navigate('/register/owner')}
+              >
+                खाता नहीं है? यहाँ रजिस्टर करें
+                <br/>
+                (Don't have an account? Register here)
+              </button>
+            </div>
           </>
         )}
 

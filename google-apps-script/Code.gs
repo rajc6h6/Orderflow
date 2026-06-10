@@ -208,6 +208,17 @@ function addOrder(data) {
     .map(item => `${item.quantity || '?'} ${item.product}`)
     .join(', ');
   
+  let placedBy = orderData.placed_by;
+  if (!placedBy || placedBy === 'Owner') {
+    const ownerSheet = getOrCreateSheet('Owner', OWNER_HEADERS);
+    const ownerData = ownerSheet.getDataRange().getValues();
+    if (ownerData.length > 1 && ownerData[1][2]) {
+      placedBy = ownerData[1][2];
+    } else {
+      placedBy = 'Owner';
+    }
+  }
+
   const row = [
     orderId,
     orderData.customer_name || '',
@@ -217,7 +228,7 @@ function addOrder(data) {
     'Pending',
     now,
     '', // dispatched_at
-    orderData.placed_by || 'Owner',
+    placedBy,
     '' // dispatched_by
   ];
   
@@ -234,7 +245,7 @@ function addOrder(data) {
       status: 'Pending',
       placed_at: now,
       dispatched_at: '',
-      placed_by: orderData.placed_by || 'Owner',
+      placed_by: placedBy,
       dispatched_by: ''
     }
   };
