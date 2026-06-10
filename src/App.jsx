@@ -95,11 +95,22 @@ function AppRoutes() {
   );
 }
 
+import { useNotifications } from './hooks/useNotifications';
+
+/**
+ * GlobalHooks — mount global effects like polling for notifications
+ */
+function GlobalHooks() {
+  useNotifications();
+  return null;
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <AppProvider>
+          <GlobalHooks />
           <AppRoutes />
         </AppProvider>
       </AuthProvider>
